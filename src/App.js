@@ -1,11 +1,12 @@
 import { Component } from "react";
+import PhoneBook from "components/PhoneBook/PhoneBook";
 
 class App extends Component {
   state = {};
   render() {
     return (
       <>
-        <h2>Let's Start!!!</h2>
+        <PhoneBook />
       </>
     );
   }
