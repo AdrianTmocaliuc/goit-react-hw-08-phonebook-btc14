@@ -7,7 +7,7 @@ import s from "./Form.module.scss";
 import { fetchWithNewContact } from "redux/contacts/contactsAsyncThunk";
 
 // import { actionAddContacts } from "redux/contacts/contacts-actions";
-import { addContact } from "redux/contacts/contacts-slice";
+// import { addContact } from "redux/contacts/contacts-slice";
 
 function Form() {
   const items = useSelector((state) => state.items.contacts);
@@ -47,7 +47,6 @@ function Form() {
     const contact = { name, phone };
 
     addContacts(contact);
-    console.log("contact", contact);
 
     reset();
   };

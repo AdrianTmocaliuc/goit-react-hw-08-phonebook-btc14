@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchContacts, fetchWithNewContact } from "./contactsAsyncThunk";
+import {
+  fetchContacts,
+  fetchWithNewContact,
+  fetchRemoveContact,
+} from "./contactsAsyncThunk";
 
 const initialState = {
   contacts: [],
@@ -32,21 +36,33 @@ const contactsSlice = createSlice({
         return { ...state, addLoader: false, error: "Something wrong!" };
       })
       .addCase(fetchWithNewContact.fulfilled, (state, { payload }) => {
-        console.log("payload", payload);
         return {
           ...state,
           contacts: [...state.contacts, payload],
           addLoader: false,
         };
+      })
+      .addCase(fetchRemoveContact.pending, (state, _) => {
+        return {
+          ...state,
+          removeLoader: true,
+        };
+      })
+      .addCase(fetchRemoveContact.fulfilled, (state, { payload }) => {
+        return {
+          ...state,
+          contacts: state.contacts.filter((elem) => {
+            return elem.id !== payload;
+          }),
+          removeLoader: true,
+        };
+      })
+      .addCase(fetchRemoveContact.rejected, (state, _) => {
+        return {
+          ...state,
+          removeLoader: false,
+        };
       });
-    // .addCase(fetchWithNewContact.fulfilled, (state, { meta }) => {
-    //   console.log("payload", meta.arg);
-    //   return {
-    //     ...state,
-    //     contacts: [...state.contacts, meta.arg],
-    //     addLoader: false,
-    //   };
-    // });
   },
 });
 

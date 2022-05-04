@@ -26,8 +26,9 @@ const putContact = async (contact) => {
 };
 
 const removeContact = async (id) => {
+  console.log("id", id);
   try {
-    const contacts = await axios.delete(`/contacts/:${id}`);
+    const contacts = await axios.delete(`/contacts/${id}`);
     return contacts.data;
   } catch (error) {
     return console.log(error);

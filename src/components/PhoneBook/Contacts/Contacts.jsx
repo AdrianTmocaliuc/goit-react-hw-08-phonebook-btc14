@@ -7,28 +7,25 @@ import { fetchContacts } from "redux/contacts/contactsAsyncThunk";
 
 function Contacts() {
   const items = useSelector((state) => state.items.contacts) || [];
-  // const filter = useSelector((state) => state.filter);
+  const filter = useSelector((state) => state.filter);
   const contactsSlice = useDispatch();
-  // console.log("items", items);
+  console.log("items", items);
 
   useEffect(() => {
     contactsSlice(fetchContacts());
-  }, []);
+  }, [contactsSlice]);
 
-  // const filterContacts = items.filter((elem) => {
-  //   return elem.name.toLowerCase().includes(filter.toLowerCase());
-  // });
+  const filterContacts = items.filter((elem) => {
+    return elem.name.toLowerCase().includes(filter.toLowerCase());
+  });
 
   return (
     <>
       <ul>
-        {/* {!!filterContacts.length &&
+        {!!filterContacts.length &&
           filterContacts.map((item) => {
             return <Item key={item.id} contactsList={item} />;
-          })} */}
-        {items?.map((item) => {
-          return <Item key={item.id} contactsList={item} />;
-        })}
+          })}
       </ul>
     </>
   );

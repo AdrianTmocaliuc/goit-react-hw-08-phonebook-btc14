@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getContacts, putContact, removeContact } from "service/axiosApi";
 
 const fetchContacts = createAsyncThunk("CONTACTS_FETCH", async () => {
@@ -9,13 +9,13 @@ const fetchContacts = createAsyncThunk("CONTACTS_FETCH", async () => {
 const fetchWithNewContact = createAsyncThunk(
   "ADD_CONTACT_FETCH",
   async (contact, thunkApi) => {
-    console.log("thunkApi", thunkApi);
+    // console.log("thunkApi", thunkApi);
     const res = await putContact(contact);
     return res;
   }
 );
 
-const FetchRemoveContact = createAsyncThunk(
+const fetchRemoveContact = createAsyncThunk(
   "REMOVE_CONTACT_FETCH",
   async (id) => {
     const res = await removeContact(id);
@@ -23,4 +23,4 @@ const FetchRemoveContact = createAsyncThunk(
   }
 );
 
-export { fetchContacts, fetchWithNewContact, FetchRemoveContact };
+export { fetchContacts, fetchWithNewContact, fetchRemoveContact };
