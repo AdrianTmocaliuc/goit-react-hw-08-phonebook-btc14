@@ -25,7 +25,7 @@ const middleware = (getDefaultMiddleware) => {
 
 const store = configureStore({
   reducer: combineReducers,
-  middleware: middleware,
+  // middleware: middleware,
   // devTools: false/true,
   devTools: process.env.NODE_ENV === "development",
 });

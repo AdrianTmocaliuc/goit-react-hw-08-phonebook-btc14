@@ -1,6 +1,5 @@
 // import PropTypes from "prop-types";
 import { useState } from "react";
-import { nanoid } from "nanoid";
 import { useDispatch, useSelector } from "react-redux";
 
 import Button from "components/Button/Button";
@@ -45,7 +44,7 @@ function Form() {
   const onSubmitForm = (e) => {
     e.preventDefault();
 
-    const contact = { id: nanoid(), name, phone };
+    const contact = { name, phone };
 
     addContacts(contact);
     console.log("contact", contact);

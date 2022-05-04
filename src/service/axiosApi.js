@@ -11,9 +11,14 @@ const getContacts = async () => {
   }
 };
 
-const putContact = async () => {
+const putContact = async (contact) => {
   try {
-    const contacts = await axios.post("/contacts");
+    const contacts = await axios({
+      method: "post",
+      url: "/contacts",
+      data: contact,
+    });
+    // const contacts = await axios.post("/contacts", contact);
     return contacts.data;
   } catch (error) {
     return console.log(error);

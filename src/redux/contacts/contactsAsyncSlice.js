@@ -31,14 +31,22 @@ const contactsSlice = createSlice({
       .addCase(fetchWithNewContact.rejected, (state, _) => {
         return { ...state, addLoader: false, error: "Something wrong!" };
       })
-      .addCase(fetchWithNewContact.fulfilled, (state, { meta }) => {
-        console.log("payload", meta.arg);
+      .addCase(fetchWithNewContact.fulfilled, (state, { payload }) => {
+        console.log("payload", payload);
         return {
           ...state,
-          contacts: [...state.contacts, meta.arg],
+          contacts: [...state.contacts, payload],
           addLoader: false,
         };
       });
+    // .addCase(fetchWithNewContact.fulfilled, (state, { meta }) => {
+    //   console.log("payload", meta.arg);
+    //   return {
+    //     ...state,
+    //     contacts: [...state.contacts, meta.arg],
+    //     addLoader: false,
+    //   };
+    // });
   },
 });
 
