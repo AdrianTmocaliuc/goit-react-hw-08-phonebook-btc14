@@ -1,20 +1,20 @@
-import { Button } from "components/Button/Button";
+import Button from "components/Button/Button";
 import s from "./Item.module.scss";
 import PropTypes from "prop-types";
 // import { actionDeleteContacts } from "redux/contacts/contacts-actions";
 import { useDispatch } from "react-redux";
-import { deleteContact } from "redux/contacts/contacts-slice/contacts-slice";
+import { deleteContact } from "redux/contacts/contacts-slice";
 
 export const Item = ({ contactsList }) => {
-  const { name, number, id } = contactsList;
+  const { name, phone, id } = contactsList;
 
   const dispatch = useDispatch();
 
   return (
     <>
-      {name && number && (
+      {name && phone && (
         <li className={s.item} type={name}>
-          {name}: {number}
+          {name}: {phone}
           <Button
             id={id}
             title="Delete"
@@ -31,7 +31,7 @@ export const Item = ({ contactsList }) => {
 Item.propTypes = {
   contactsList: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }),
 };

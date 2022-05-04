@@ -1,24 +1,34 @@
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Item } from "components/Item/Item";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-import React from "react";
+import { fetchContacts } from "redux/contacts/contactsAsyncThunk";
 
 function Contacts() {
-  const contacts = useSelector((state) => state.contacts);
-  const filter = useSelector((state) => state.filter);
+  const items = useSelector((state) => state.items.contacts) || [];
+  // const filter = useSelector((state) => state.filter);
+  const contactsSlice = useDispatch();
+  // console.log("items", items);
 
-  const filterContacts = contacts.filter((elem) => {
-    return elem.name.toLowerCase().includes(filter.toLowerCase());
-  });
+  useEffect(() => {
+    contactsSlice(fetchContacts());
+  }, []);
+
+  // const filterContacts = items.filter((elem) => {
+  //   return elem.name.toLowerCase().includes(filter.toLowerCase());
+  // });
 
   return (
     <>
       <ul>
-        {!!filterContacts.length &&
+        {/* {!!filterContacts.length &&
           filterContacts.map((item) => {
             return <Item key={item.id} contactsList={item} />;
-          })}
+          })} */}
+        {items?.map((item) => {
+          return <Item key={item.id} contactsList={item} />;
+        })}
       </ul>
     </>
   );
@@ -29,7 +39,7 @@ Contacts.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
     })
   ),
   filter: PropTypes.string,
