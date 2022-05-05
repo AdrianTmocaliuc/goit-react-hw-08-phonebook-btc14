@@ -11,7 +11,12 @@ class Button extends Component {
     const { title, id, onClick, selected } = this.props;
     return (
       <>
-        <button className={s.button} id={id} onClick={onClick}>
+        <button
+          disabled={this?.props?.loading && selected === id ? true : false}
+          className={s.button}
+          id={id}
+          onClick={onClick}
+        >
           {this?.props?.loading && selected === id ? (
             <TailSpin height="15" width="15" color="red" ariaLabel="loading" />
           ) : (

@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
 
-import Button from "components/Button/Button";
+// import Button from "components/Button/Button";
 import s from "./Form.module.scss";
 import { fetchWithNewContact } from "redux/contacts/contactsAsyncThunk";
 import { initialState, reducer } from "./formReducer";
@@ -71,7 +71,8 @@ function Form() {
         {addLoader ? (
           <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
         ) : (
-          <Button title="Add contact" />
+          <button>Add contact</button>
+          // <Button title="Add contact" />
         )}
       </form>
     </>
