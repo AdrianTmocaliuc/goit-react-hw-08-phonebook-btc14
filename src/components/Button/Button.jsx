@@ -1,18 +1,22 @@
 import { Component } from "react";
 import s from "./Button.module.scss";
 import PropTypes from "prop-types";
-import { useSelector, connect } from "react-redux";
+
+import { TailSpin } from "react-loader-spinner";
+
+import { connect } from "react-redux";
 
 class Button extends Component {
-  // const loader = useSelector((state)=>state.items)
-
   render() {
-    // console.log(this.props.loading);
-    const { title, id, onClick } = this.props;
+    const { title, id, onClick, selected } = this.props;
     return (
       <>
         <button className={s.button} id={id} onClick={onClick}>
-          {title}
+          {this?.props?.loading && selected === id ? (
+            <TailSpin height="15" width="15" color="red" ariaLabel="loading" />
+          ) : (
+            title
+          )}
         </button>
       </>
     );

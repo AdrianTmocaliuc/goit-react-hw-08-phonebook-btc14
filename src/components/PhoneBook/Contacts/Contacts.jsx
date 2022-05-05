@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Item } from "components/Item/Item";
 import { useSelector, useDispatch } from "react-redux";
+import { TailSpin } from "react-loader-spinner";
 
 import { fetchContacts } from "redux/contacts/contactsAsyncThunk";
 
 function Contacts() {
   const items = useSelector((state) => state.items.contacts) || [];
+  const contactsLoader = useSelector((state) => state.items.contactsLoader);
   const filter = useSelector((state) => state.filter);
-  const contactsSlice = useDispatch();
-  console.log("items", items);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    contactsSlice(fetchContacts());
-  }, [contactsSlice]);
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const filterContacts = items.filter((elem) => {
     return elem.name.toLowerCase().includes(filter.toLowerCase());
@@ -21,12 +22,16 @@ function Contacts() {
 
   return (
     <>
-      <ul>
-        {!!filterContacts.length &&
-          filterContacts.map((item) => {
-            return <Item key={item.id} contactsList={item} />;
-          })}
-      </ul>
+      {contactsLoader ? (
+        <TailSpin height="25" width="25" color="red" ariaLabel="loading" />
+      ) : (
+        <ul>
+          {!!filterContacts.length &&
+            filterContacts.map((item) => {
+              return <Item key={item.id} contactsList={item} />;
+            })}
+        </ul>
+      )}
     </>
   );
 }

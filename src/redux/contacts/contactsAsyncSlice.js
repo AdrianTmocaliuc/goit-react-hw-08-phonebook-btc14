@@ -38,7 +38,7 @@ const contactsSlice = createSlice({
       .addCase(fetchWithNewContact.fulfilled, (state, { payload }) => {
         return {
           ...state,
-          contacts: [...state.contacts, payload],
+          contacts: [...state?.contacts, payload],
           addLoader: false,
         };
       })
@@ -49,12 +49,11 @@ const contactsSlice = createSlice({
         };
       })
       .addCase(fetchRemoveContact.fulfilled, (state, { payload }) => {
+        // console.log("removeState", state);
         return {
           ...state,
-          contacts: state.contacts.filter((elem) => {
-            return elem.id !== payload;
-          }),
-          removeLoader: true,
+          contacts: state.contacts.filter((item) => item.id !== payload.id),
+          removeLoader: false,
         };
       })
       .addCase(fetchRemoveContact.rejected, (state, _) => {

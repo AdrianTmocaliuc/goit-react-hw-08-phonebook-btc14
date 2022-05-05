@@ -1,44 +1,34 @@
-// import PropTypes from "prop-types";
-import { useState } from "react";
+import { useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { TailSpin } from "react-loader-spinner";
 
 import Button from "components/Button/Button";
 import s from "./Form.module.scss";
 import { fetchWithNewContact } from "redux/contacts/contactsAsyncThunk";
-
-// import { actionAddContacts } from "redux/contacts/contacts-actions";
-// import { addContact } from "redux/contacts/contacts-slice";
+import { initialState, reducer } from "./formReducer";
 
 function Form() {
   const items = useSelector((state) => state.items.contacts);
+  const addLoader = useSelector((state) => state.items.addLoader);
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+
+  const [state, dispatchState] = useReducer(reducer, initialState);
+  const { name, phone } = state;
 
   const onChangeInput = ({ target }) => {
     const { name, value } = target;
-    switch (name) {
-      case "name":
-        setName(value);
-        break;
-      case "phone":
-        setPhone(value);
-        break;
-
-      default:
-        break;
-    }
+    dispatchState({ type: name, payload: value });
   };
+
   const addContacts = (contact) => {
     const inputName = contact.name.toLowerCase();
     const names = items?.map((item) => item.name.toLowerCase());
 
-    if (names.includes(inputName)) {
+    if (names?.includes(inputName)) {
       alert(`"${contact.name}" is already in contacts !`);
       return;
     }
     dispatch(fetchWithNewContact(contact));
-    // dispatch(addContact(contact));
   };
 
   const onSubmitForm = (e) => {
@@ -48,13 +38,8 @@ function Form() {
 
     addContacts(contact);
 
-    reset();
+    dispatchState({ type: "reset" });
   };
-
-  function reset() {
-    setName("");
-    setPhone("");
-  }
 
   return (
     <>
@@ -83,14 +68,14 @@ function Form() {
             onChange={onChangeInput}
           />
         </label>
-        <Button title="Add contact" />
+        {addLoader ? (
+          <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
+        ) : (
+          <Button title="Add contact" />
+        )}
       </form>
     </>
   );
 }
 
 export default Form;
-
-// Form.propTypes = {
-//   addContacts: PropTypes.func.isRequired,
-// };
