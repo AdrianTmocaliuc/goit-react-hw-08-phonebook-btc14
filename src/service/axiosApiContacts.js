@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://626f8cc5c508beec488536d8.mockapi.io";
+axios.defaults.baseURL = "https://connections-api.herokuapp.com";
 
 const getContacts = async () => {
   try {
@@ -32,7 +32,6 @@ const putContact = async (contact) => {
 const removeContact = async (id) => {
   try {
     const res = await axios.delete(`/contacts/${id}`);
-    // console.log("contacts", contacts);
     return res.data;
   } catch (error) {
     return console.log(error);

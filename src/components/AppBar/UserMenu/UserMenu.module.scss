@@ -1,0 +1,22 @@
+.userMenu{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    p{
+        margin: auto;
+    }
+    button{
+        margin: 5px 5px;
+        padding: 0px 5px;
+    }
+
+    .pages{
+        button{
+            border: none;
+            background: none;
+        }
+    }
+    .userBar{
+        display: flex;
+    }
+}

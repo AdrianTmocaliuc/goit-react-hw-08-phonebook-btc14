@@ -1,11 +1,11 @@
 export const initialState = {
   name: "",
-  phone: "",
+  number: "",
 };
 
 export const initialTypes = {
   name: "name",
-  phone: "phone",
+  number: "number",
   reset: "reset",
 };
 
@@ -14,8 +14,8 @@ export function reducer(state, action) {
   switch (type) {
     case initialTypes.name:
       return { ...state, name: payload };
-    case initialTypes.phone:
-      return { ...state, phone: payload };
+    case initialTypes.number:
+      return { ...state, number: payload };
     case initialTypes.reset:
       return initialState;
 

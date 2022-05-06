@@ -1,4 +1,4 @@
-import Button from "components/Button/Button";
+import Button from "components/utilities/Button/Button";
 import s from "./Item.module.scss";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export const Item = ({ contactsList }) => {
   const [buttonId, setButtonId] = useState("");
-  const { name, phone, id } = contactsList;
+  const { name, number, id } = contactsList;
 
   const dispatch = useDispatch();
 
@@ -18,9 +18,9 @@ export const Item = ({ contactsList }) => {
 
   return (
     <>
-      {name && phone && (
+      {name && number && (
         <li className={s.item} type={name}>
-          {name}: {phone}
+          {name}: {number}
           <Button
             id={id}
             selected={buttonId}
@@ -36,7 +36,7 @@ export const Item = ({ contactsList }) => {
 Item.propTypes = {
   contactsList: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }),
 };

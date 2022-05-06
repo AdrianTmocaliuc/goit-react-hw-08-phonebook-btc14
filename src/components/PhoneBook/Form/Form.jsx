@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
 
-// import Button from "components/Button/Button";
+import Button from "components/utilities/Button/Button";
 import s from "./Form.module.scss";
 import { fetchWithNewContact } from "redux/contacts/contactsAsyncThunk";
 import { initialState, reducer } from "./formReducer";
@@ -13,7 +13,7 @@ function Form() {
   const dispatch = useDispatch();
 
   const [state, dispatchState] = useReducer(reducer, initialState);
-  const { name, phone } = state;
+  const { name, number } = state;
 
   const onChangeInput = ({ target }) => {
     const { name, value } = target;
@@ -34,7 +34,7 @@ function Form() {
   const onSubmitForm = (e) => {
     e.preventDefault();
 
-    const contact = { name, phone };
+    const contact = { name, number };
 
     addContacts(contact);
 
@@ -57,13 +57,13 @@ function Form() {
           />
         </label>
         <label>
-          <h3>Phone</h3>
+          <h3>number</h3>
           <input
             type="tel"
-            name="phone"
-            value={phone}
+            name="number"
+            value={number}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone phone must be digits and can contain spaces, dashes, parentheses and can start with +"
+            title="number number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
             onChange={onChangeInput}
           />
@@ -71,8 +71,7 @@ function Form() {
         {addLoader ? (
           <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
         ) : (
-          <button>Add contact</button>
-          // <Button title="Add contact" />
+          <Button title="Add contact" />
         )}
       </form>
     </>
