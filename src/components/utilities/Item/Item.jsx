@@ -4,16 +4,30 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { fetchRemoveContact } from "redux/contacts/contactsAsyncThunk";
 import { useState } from "react";
+import ModalEditContact from "components/ModalEditContact/ModalEditContact";
 
 export const Item = ({ contactsList }) => {
   const [buttonId, setButtonId] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+
   const { name, number, id } = contactsList;
 
   const dispatch = useDispatch();
 
   const handleClick = ({ target: { id } }) => {
     setButtonId(id);
+    console.log("id", id);
+
     dispatch(fetchRemoveContact(id));
+  };
+
+  const onCLickButton = ({ target: { id } }) => {
+    setButtonId(id);
+    setModalShow(true);
+  };
+
+  const toggleModal = () => {
+    setModalShow(!modalShow);
   };
 
   return (
@@ -24,10 +38,19 @@ export const Item = ({ contactsList }) => {
           <Button
             id={id}
             selected={buttonId}
-            title="delete"
+            title="Delete"
             onClick={handleClick}
           />
+          {/* <Button
+            id={id}
+            selected={buttonId}
+            title="Edit"
+            onClick={onCLickButton}
+          /> */}
         </li>
+      )}
+      {modalShow && (
+        <ModalEditContact contactId={buttonId} onClose={toggleModal} />
       )}
     </>
   );

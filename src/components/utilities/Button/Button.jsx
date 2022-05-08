@@ -8,9 +8,16 @@ import { connect } from "react-redux";
 
 class Button extends Component {
   render() {
-    const { title, id, onClick, selected, type = "button" } = this.props;
+    const {
+      title,
+      id,
+      onClick,
+      selected,
+      type = "button",
+      dataset,
+    } = this.props;
     const checkedButton =
-      this?.props?.loading && selected === id && title === "delete";
+      this?.props?.loading && selected === id && title === "Delete";
     return (
       <>
         <button

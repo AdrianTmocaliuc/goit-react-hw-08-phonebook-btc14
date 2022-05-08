@@ -4,7 +4,7 @@ import storage from "redux-persist/lib/storage";
 
 import contactsSlice from "./contacts/contactsAsyncSlice";
 import filterSlice from "./filter/filter-slice";
-import authorizationSlice from "./registration/authorizationAsyncSlice";
+import authorizationSlice from "./authorization/authorizationAsyncSlice";
 
 const persistConfig = {
   key: "token",

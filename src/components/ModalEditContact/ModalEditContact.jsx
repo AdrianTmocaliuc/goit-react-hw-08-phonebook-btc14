@@ -1,15 +1,16 @@
-import { useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
 
 import Button from "components/utilities/Button/Button";
-import s from "./Form.module.scss";
-import { fetchWithNewContact } from "redux/contacts/contactsAsyncThunk";
-import { initialState, reducer } from "./formReducer";
+import s from "./ModalEditContact.module.scss";
+import { initialState, reducer } from "./ModalEditContactReducer";
 
-function GeneralForm() {
+const ModalEditContact = ({ onClose, contactId }) => {
   const items = useSelector((state) => state.items.contacts);
-  const addLoader = useSelector((state) => state.items.addLoader);
+
+  const editContact = items?.filter((item) => item.id === contactId)[0];
+
   const dispatch = useDispatch();
 
   const [state, dispatchState] = useReducer(reducer, initialState);
@@ -23,28 +24,47 @@ function GeneralForm() {
   const addContacts = (contact) => {
     const inputName = contact.name.toLowerCase();
     const names = items?.map((item) => item.name.toLowerCase());
-
     if (names?.includes(inputName)) {
       alert(`"${contact.name}" is already in contacts !`);
       return;
     }
     console.log("contact", contact);
-    dispatch(fetchWithNewContact(contact));
+    //   dispatch(fetchWithNewContact(contact));
   };
 
   const onSubmitForm = (e) => {
     e.preventDefault();
 
-    const contact = { name, number };
+    //   const contact = { name, number };
 
-    addContacts(contact);
+    //   addContacts(contact);
 
     dispatchState({ type: "reset" });
   };
 
+  const backdropCLoseByEscape = useCallback((e) => {
+    if (e.code === "Escape") {
+      onClose();
+    }
+  });
+
+  useEffect(() => {
+    window.addEventListener("keydown", backdropCLoseByEscape);
+
+    return () => {
+      window.removeEventListener("keydown", backdropCLoseByEscape);
+    };
+  }, [backdropCLoseByEscape]);
+
+  const onBackdropClose = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <>
-      <form className={s.form} onSubmit={onSubmitForm}>
+    <div className={s.backdrop} onClick={onBackdropClose}>
+      <form className={s.modal} onSubmit={onSubmitForm}>
         <label>
           <h3>Name</h3>
           <input
@@ -69,14 +89,10 @@ function GeneralForm() {
             onChange={onChangeInput}
           />
         </label>
-        {addLoader ? (
-          <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
-        ) : (
-          <Button title="Add contact" />
-        )}
+        <Button title="Change contact" />
       </form>
-    </>
+    </div>
   );
-}
+};
 
-export default GeneralForm;
+export default ModalEditContact;

@@ -2,6 +2,14 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    a {
+            font-size: 20px;
+            text-decoration: none;
+    
+            &:not(:last-child) {
+                margin-right: 15px;
+            }
+        }
     p{
         margin: auto;
     }
@@ -10,13 +18,20 @@
         padding: 0px 5px;
     }
 
-    .pages{
-        button{
-            border: none;
-            background: none;
-        }
-    }
-    .userBar{
-        display: flex;
-    }
+}
+
+.userBar{
+    display: flex;
+}
+
+.nav_link {
+    font-size: 18px;
+    text-decoration: none;
+    color: black
+}
+
+.activated {
+    font-size: 20px;
+    text-decoration: none;
+    color: red;
 }

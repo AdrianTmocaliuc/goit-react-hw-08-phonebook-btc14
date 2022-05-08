@@ -5,22 +5,23 @@ import { useReducer, useState } from "react";
 import s from "./Register.module.scss";
 
 import { useDispatch } from "react-redux";
-import { RegisterUser } from "redux/registration/authorizationAsyncThunk";
+import { RegisterUser } from "redux/authorization/authorizationAsyncThunk";
+import GeneralForm from "components/utilities/GeneralForm/GeneralForm";
 
-export const initialState = {
+const initialState = {
   name: "",
   email: "",
   password: "",
 };
 
-export const initialTypes = {
+const initialTypes = {
   name: "name",
   email: "email",
   password: "password",
   reset: "reset",
 };
 
-export function reducer(state, action) {
+function reducer(state, action) {
   const { type, payload } = action;
   switch (type) {
     case initialTypes.name:
@@ -38,73 +39,92 @@ export function reducer(state, action) {
 }
 
 const Register = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const [state, dispatchState] = useReducer(reducer, initialState);
+  // const onSubmitForm = (e) => {
+  //   e.preventDefault();
+  //   // console.log("state", state);
 
-  const { name, email, password } = state;
+  //   dispatch(RegisterUser(state));
 
-  const [registerLoader, setRegisterLoader] = useState(false);
-
-  const onChangeInput = ({ target }) => {
-    const { name, value } = target;
-    dispatchState({ type: name, payload: value });
-  };
-
-  const onSubmitForm = (e) => {
-    e.preventDefault();
-    // console.log("state", state);
-
-    dispatch(RegisterUser(state));
-
-    dispatchState({ type: "reset" });
-  };
+  //   dispatchState({ type: "reset" });
+  // };
 
   return (
     <>
-      <form className={s.form} onSubmit={onSubmitForm}>
-        <label>
-          <h3>Name</h3>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            onChange={onChangeInput}
-          />
-        </label>
-        <label>
-          <h3>Email</h3>
-          <input
-            type="tel"
-            name="email"
-            value={email}
-            title="Phone phone must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-            onChange={onChangeInput}
-          />
-        </label>
-        <label>
-          <h3>Password</h3>
-          <input
-            type="tel"
-            name="password"
-            value={password}
-            title="Phone phone must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-            onChange={onChangeInput}
-          />
-        </label>
-        {registerLoader ? (
-          <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
-        ) : (
-          <Button title="Register" />
-        )}
-      </form>
+      <GeneralForm asyncOperation={RegisterUser} buttonTitle="Register" />
     </>
   );
 };
+
+// const OldRegister = () => {
+//   const dispatch = useDispatch();
+
+//   const [state, dispatchState] = useReducer(reducer, initialState);
+
+//   const { name, email, password } = state;
+
+//   const [registerLoader, setRegisterLoader] = useState(false);
+
+//   const onChangeInput = ({ target }) => {
+//     const { name, value } = target;
+//     dispatchState({ type: name, payload: value });
+//   };
+
+//   const onSubmitForm = (e) => {
+//     e.preventDefault();
+//     // console.log("state", state);
+
+//     dispatch(RegisterUser(state));
+
+//     dispatchState({ type: "reset" });
+//   };
+
+//   return (
+//     <>
+//       <form className={s.form} onSubmit={onSubmitForm}>
+//         <label>
+//           <h3>Name</h3>
+//           <input
+//             type="text"
+//             name="name"
+//             value={name}
+//             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+//             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+//             required
+//             onChange={onChangeInput}
+//           />
+//         </label>
+//         <label>
+//           <h3>Email</h3>
+//           <input
+//             type="tel"
+//             name="email"
+//             value={email}
+//             title="Phone phone must be digits and can contain spaces, dashes, parentheses and can start with +"
+//             required
+//             onChange={onChangeInput}
+//           />
+//         </label>
+//         <label>
+//           <h3>Password</h3>
+//           <input
+//             type="tel"
+//             name="password"
+//             value={password}
+//             title="Phone phone must be digits and can contain spaces, dashes, parentheses and can start with +"
+//             required
+//             onChange={onChangeInput}
+//           />
+//         </label>
+//         {registerLoader ? (
+//           <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
+//         ) : (
+//           <Button title="Register" />
+//         )}
+//       </form>
+//     </>
+//   );
+// };
 
 export default Register;

@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 // import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
-import { currentUser } from "redux/registration/authorizationAsyncThunk";
+import { currentUser } from "redux/authorization/authorizationAsyncThunk";
 import PrivateRoute from "components/PrivateRoute/PrivateRoute";
 import PublicRoute from "components/PublicRoute/PublicRoute";
 const LazyPhoneBookPage = lazy(

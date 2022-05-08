@@ -1,11 +1,12 @@
 import Button from "components/utilities/Button/Button";
 import s from "./UserMenu.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutUser } from "redux/registration/authorizationAsyncThunk";
+import { logOutUser } from "redux/authorization/authorizationAsyncThunk";
+import { NavLink } from "react-router-dom";
 
 //
 
-const UserMenu = ({ onclick }) => {
+const UserMenu = () => {
   const { user } = useSelector((state) => state.authorization);
 
   const dispatch = useDispatch();
@@ -17,9 +18,12 @@ const UserMenu = ({ onclick }) => {
   return (
     <div className={s.userMenu}>
       <div className={s.pages}>
-        <button onClick={onclick} data-page="contacts">
+        <NavLink
+          to="contacts"
+          className={({ isActive }) => (isActive ? s.activated : s.nav_link)}
+        >
           Contacts
-        </button>
+        </NavLink>
       </div>
       <div className={s.userBar}>
         <p>{"User" && user.email}</p>

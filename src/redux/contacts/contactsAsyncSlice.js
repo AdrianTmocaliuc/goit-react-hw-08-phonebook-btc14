@@ -36,6 +36,7 @@ const contactsSlice = createSlice({
         return { ...state, addLoader: false, error: "Something wrong!" };
       })
       .addCase(fetchWithNewContact.fulfilled, (state, { payload }) => {
+        // console.log("payload", payload);
         return {
           ...state,
           contacts: [...state?.contacts, payload],
@@ -48,11 +49,12 @@ const contactsSlice = createSlice({
           removeLoader: true,
         };
       })
-      .addCase(fetchRemoveContact.fulfilled, (state, { payload }) => {
-        // console.log("removeState", state);
+      .addCase(fetchRemoveContact.fulfilled, (state, { meta }) => {
+        console.log("removeState", { ...state });
+        console.log("payload", meta);
         return {
           ...state,
-          contacts: state.contacts.filter((item) => item.id !== payload.id),
+          contacts: state.contacts.filter((item) => item.id !== meta.arg),
           removeLoader: false,
         };
       })

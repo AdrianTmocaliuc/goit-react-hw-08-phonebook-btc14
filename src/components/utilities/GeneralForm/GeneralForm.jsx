@@ -1,44 +1,20 @@
-import { TailSpin } from "react-loader-spinner";
-import Button from "components/utilities/Button/Button";
 import { useReducer, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { TailSpin } from "react-loader-spinner";
 
-import s from "./Login.module.scss";
-import { useDispatch } from "react-redux";
-import { LoginUser } from "redux/authorization/authorizationAsyncThunk";
+import s from "./GeneralForm.module.scss";
+import Button from "components/utilities/Button/Button";
+import { initialState, reducer } from "./GeneralFormReducer";
 
-export const initialState = {
-  email: "",
-  password: "",
-};
-
-export const initialTypes = {
-  email: "email",
-  password: "password",
-  reset: "reset",
-};
-
-export function reducer(state, action) {
-  const { type, payload } = action;
-  switch (type) {
-    case initialTypes.email:
-      return { ...state, email: payload };
-    case initialTypes.password:
-      return { ...state, password: payload };
-    case initialTypes.reset:
-      return initialState;
-
-    default:
-      break;
-  }
-}
-
-const Login = () => {
+function GeneralForm({ asyncOperation, buttonTitle }) {
   const dispatch = useDispatch();
-  const [state, dispatchState] = useReducer(reducer, initialState);
-  const { email, password } = state;
-  const [loginLoader, setRegisterLoader] = useState(false);
 
-  const onChangeInput = ({ target }) => {
+  const [state, dispatchState] = useReducer(reducer, initialState);
+  const { name, email, password } = state;
+
+  const [registerLoader, setRegisterLoader] = useState(false);
+
+  const onChangeInput = ({ target, buttonTitle }) => {
     const { name, value } = target;
     dispatchState({ type: name, payload: value });
   };
@@ -46,7 +22,10 @@ const Login = () => {
   const onSubmitForm = (e) => {
     e.preventDefault();
 
-    dispatch(LoginUser(state));
+    // const contact = { name, number };
+    dispatch(asyncOperation(state));
+
+    dispatch();
 
     dispatchState({ type: "reset" });
   };
@@ -54,6 +33,18 @@ const Login = () => {
   return (
     <>
       <form className={s.form} onSubmit={onSubmitForm}>
+        <label>
+          <h3>Name</h3>
+          <input
+            type="text"
+            name="name"
+            value={name}
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            onChange={onChangeInput}
+          />
+        </label>
         <label>
           <h3>Email</h3>
           <input
@@ -65,6 +56,7 @@ const Login = () => {
             onChange={onChangeInput}
           />
         </label>
+
         <label>
           <h3>Password</h3>
           <input
@@ -76,14 +68,14 @@ const Login = () => {
             onChange={onChangeInput}
           />
         </label>
-        {loginLoader ? (
+        {registerLoader ? (
           <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
         ) : (
-          <Button title="Login" />
+          <Button title={buttonTitle} />
         )}
       </form>
     </>
   );
-};
+}
 
-export default Login;
+export default GeneralForm;
