@@ -28,7 +28,6 @@ function GeneralForm() {
       alert(`"${contact.name}" is already in contacts !`);
       return;
     }
-    console.log("contact", contact);
     dispatch(fetchWithNewContact(contact));
   };
 
@@ -72,7 +71,7 @@ function GeneralForm() {
         {addLoader ? (
           <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
         ) : (
-          <Button title="Add contact" />
+          <Button title="Add contact" type="submit" />
         )}
       </form>
     </>

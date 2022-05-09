@@ -32,31 +32,20 @@ const LazyHomePage = lazy(
 
 function App() {
   const dispatch = useDispatch();
-  // const navigate = useNavigate()
   const { token, isAuth } = useSelector((state) => state.authorization);
 
-  // console.log("isAuth", isAuth);
   useEffect(() => {
     if (token) {
       dispatch(currentUser());
-      // navigate()
     }
   }, [dispatch]);
 
   return (
     <div>
-      <Suspense>
+      <Suspense fallback={<h1>Loading ... </h1>}>
         <LazyAppBarPage />
 
         <Routes>
-          <Route
-            path="contacts"
-            element={
-              <PrivateRoute>
-                <LazyPhoneBookPage />
-              </PrivateRoute>
-            }
-          />
           <Route path="/" element={<LazyHomePage />} />
           <Route
             path="register"
@@ -73,6 +62,14 @@ function App() {
               <PublicRoute restricted>
                 <LazyLoginPage />
               </PublicRoute>
+            }
+          />
+          <Route
+            path="contacts"
+            element={
+              <PrivateRoute>
+                <LazyPhoneBookPage />
+              </PrivateRoute>
             }
           />
           <Route path="*" element={<LazyNotFoundPage />} />

@@ -9,6 +9,7 @@ import {
 const initialState = {
   token: "",
   isAuth: false,
+  error: "",
   user: {
     name: "",
     email: "",
@@ -30,8 +31,8 @@ const authorizationSlice = createSlice({
       .addCase(RegisterUser.fulfilled, (state, { payload }) => {
         return {
           ...state,
-          token: payload.token,
-          user: payload.user,
+          token: payload?.token,
+          user: payload?.user,
           authLoader: false,
           isAuth: true,
         };
@@ -40,13 +41,17 @@ const authorizationSlice = createSlice({
         return { ...state, authLoader: true };
       })
       .addCase(LoginUser.rejected, (state) => {
-        return { ...state, authLoader: false };
+        return {
+          ...state,
+          authLoader: false,
+          error: `Incorrect "Email" or "Password"`,
+        };
       })
       .addCase(LoginUser.fulfilled, (state, { payload }) => {
         return {
           ...state,
-          token: payload.token,
-          user: payload.user,
+          token: payload?.token,
+          user: payload?.user,
           authLoader: false,
           isAuth: true,
         };
@@ -60,7 +65,7 @@ const authorizationSlice = createSlice({
       .addCase(currentUser.fulfilled, (state, { payload }) => {
         return {
           ...state,
-          user: { ...state.user, name: payload.name, email: payload.email },
+          user: { ...state.user, name: payload?.name, email: payload?.email },
           authLoader: false,
           isAuth: true,
         };

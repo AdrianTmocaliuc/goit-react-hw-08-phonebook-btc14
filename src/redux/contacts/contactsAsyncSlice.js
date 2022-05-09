@@ -3,6 +3,7 @@ import {
   fetchContacts,
   fetchWithNewContact,
   fetchRemoveContact,
+  fetchChangeContact,
 } from "./contactsAsyncThunk";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   contactsLoader: false,
   addLoader: false,
   removeLoader: false,
+  changeLoader: false,
 };
 
 const contactsSlice = createSlice({
@@ -49,12 +51,10 @@ const contactsSlice = createSlice({
           removeLoader: true,
         };
       })
-      .addCase(fetchRemoveContact.fulfilled, (state, { meta }) => {
-        console.log("removeState", { ...state });
-        console.log("payload", meta);
+      .addCase(fetchRemoveContact.fulfilled, (state, { payload }) => {
         return {
           ...state,
-          contacts: state.contacts.filter((item) => item.id !== meta.arg),
+          contacts: state.contacts.filter((item) => item.id !== payload),
           removeLoader: false,
         };
       })
@@ -62,6 +62,37 @@ const contactsSlice = createSlice({
         return {
           ...state,
           removeLoader: false,
+        };
+      })
+      .addCase(fetchChangeContact.pending, (state, _) => {
+        return {
+          ...state,
+          changeLoader: true,
+        };
+      })
+      .addCase(fetchChangeContact.rejected, (state, _) => {
+        return {
+          ...state,
+          changeLoader: false,
+        };
+      })
+      .addCase(fetchChangeContact.fulfilled, (state, { payload }) => {
+        console.log("payload", payload);
+        console.log("state", state.contacts);
+        return {
+          ...state,
+          contacts: state.contacts.map((contact) => {
+            if (contact.id === payload.id) {
+              return payload;
+            }
+            return contact;
+          }),
+          // contacts: state.contacts.splice(
+          //   state.contacts.findIndex((contact) => contact.id === payload.id),
+          //   1,
+          //   payload
+          // ),
+          changeLoader: false,
         };
       });
   },

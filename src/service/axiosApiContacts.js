@@ -38,4 +38,24 @@ const removeContact = async (id) => {
   }
 };
 
-export { getContacts, putContact, removeContact };
+const changeContact = async (contact) => {
+  try {
+    // const res = await axios.patch(`/contacts/${contact.id}`, {
+    //   name: contact.name,
+    //   number: contact.number,
+    // });
+    const res = await axios({
+      method: "patch",
+      url: `/contacts/${contact.id}`,
+      data: {
+        name: contact.name,
+        number: contact.number,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+export { getContacts, putContact, removeContact, changeContact };

@@ -1,29 +1,42 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import {
   getContacts,
   putContact,
   removeContact,
+  changeContact,
 } from "service/axiosApiContacts";
 
-const fetchContacts = createAsyncThunk("CONTACTS_FETCH", async () => {
+const fetchContacts = createAsyncThunk("contacts", async () => {
   const res = await getContacts();
   return res;
 });
 
 const fetchWithNewContact = createAsyncThunk(
-  "ADD_CONTACT_FETCH",
+  "addContact",
   async (contact, thunkApi) => {
     const res = await putContact(contact);
     return res;
   }
 );
 
-const fetchRemoveContact = createAsyncThunk(
-  "REMOVE_CONTACT_FETCH",
-  async (id) => {
-    const res = await removeContact(id);
+const fetchRemoveContact = createAsyncThunk("removeContact", async (id) => {
+  await removeContact(id);
+  return id;
+});
+
+const fetchChangeContact = createAsyncThunk(
+  "changeContact",
+  async (contact) => {
+    const res = await changeContact(contact);
+
     return res;
   }
 );
 
-export { fetchContacts, fetchWithNewContact, fetchRemoveContact };
+export {
+  fetchContacts,
+  fetchWithNewContact,
+  fetchRemoveContact,
+  fetchChangeContact,
+};

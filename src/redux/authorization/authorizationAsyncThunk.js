@@ -24,7 +24,8 @@ export const RegisterUser = createAsyncThunk(
       token.set(res.data.token);
       return res.data;
     } catch (error) {
-      return console.log("Error", error);
+      alert(`Incorrect Data`);
+      return thunkApi.rejectWithValue();
     }
   }
 );
@@ -35,16 +36,21 @@ export const LoginUser = createAsyncThunk(
     try {
       const res = await axios.post("/users/login", contact);
       token.set(res.data.token);
+      const state = thunkApi.getState();
+
+      // thunkApi.getState();
+      // return state.Authorization.token === res.data.token ? "ok" : res.data;
       return res.data;
     } catch (error) {
-      return console.log("Error", error);
+      alert(`Incorrect "Email" or "Password"`);
+
+      return thunkApi.rejectWithValue();
     }
   }
 );
 
 export const currentUser = createAsyncThunk("refresh", async (_, thunkApi) => {
   try {
-    // console.log("thunkApi", thunkApi.getState());
     const state = thunkApi.getState();
 
     token.set(state.authorization.token);
@@ -52,7 +58,7 @@ export const currentUser = createAsyncThunk("refresh", async (_, thunkApi) => {
     const res = await axios.get("/users/current");
     return res.data;
   } catch (error) {
-    return console.log("Error", error);
+    return thunkApi.rejectWithValue();
   }
 });
 
@@ -62,6 +68,7 @@ export const logOutUser = createAsyncThunk("logOut", async (_, thunkApi) => {
 
     token.unset();
   } catch (error) {
-    return console.log("Error", error);
+    return thunkApi.rejectWithValue();
+    // return console.log("Error", error);
   }
 });

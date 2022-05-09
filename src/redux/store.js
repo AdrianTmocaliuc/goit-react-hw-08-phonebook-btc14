@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import logger from "redux-logger";
 import {
   persistStore,
   // persistReducer,
@@ -12,14 +11,6 @@ import {
 } from "redux-persist";
 // import storage from "redux-persist/lib/storage";
 import combineReducers from "./root-reducers";
-
-// const persistConfig = {
-//   key: "register",
-//   storage,
-//   whitelist: ["register"],
-// };
-
-// const persistedReducer = persistReducer(persistConfig, combineReducers);
 
 const store = configureStore({
   reducer: combineReducers,

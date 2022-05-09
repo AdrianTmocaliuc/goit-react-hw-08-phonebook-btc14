@@ -1,20 +1,22 @@
 import { useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
+import PropTypes from "prop-types";
 
 import s from "./GeneralForm.module.scss";
 import Button from "components/utilities/Button/Button";
 import { initialState, reducer } from "./GeneralFormReducer";
+import { RegisterUser } from "redux/authorization/authorizationAsyncThunk";
 
-function GeneralForm({ asyncOperation, buttonTitle }) {
+function GeneralForm({ buttonTitle }) {
   const dispatch = useDispatch();
+  const { authLoader } = useSelector((state) => state.authorization);
+  console.log("authLoader", authLoader);
 
   const [state, dispatchState] = useReducer(reducer, initialState);
   const { name, email, password } = state;
 
-  const [registerLoader, setRegisterLoader] = useState(false);
-
-  const onChangeInput = ({ target, buttonTitle }) => {
+  const onChangeInput = ({ target }) => {
     const { name, value } = target;
     dispatchState({ type: name, payload: value });
   };
@@ -22,10 +24,7 @@ function GeneralForm({ asyncOperation, buttonTitle }) {
   const onSubmitForm = (e) => {
     e.preventDefault();
 
-    // const contact = { name, number };
-    dispatch(asyncOperation(state));
-
-    dispatch();
+    dispatch(RegisterUser(state));
 
     dispatchState({ type: "reset" });
   };
@@ -68,10 +67,10 @@ function GeneralForm({ asyncOperation, buttonTitle }) {
             onChange={onChangeInput}
           />
         </label>
-        {registerLoader ? (
+        {authLoader ? (
           <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
         ) : (
-          <Button title={buttonTitle} />
+          <Button title={buttonTitle} type="submit" />
         )}
       </form>
     </>
@@ -79,3 +78,7 @@ function GeneralForm({ asyncOperation, buttonTitle }) {
 }
 
 export default GeneralForm;
+
+GeneralForm.propTypes = {
+  buttonTitle: PropTypes.string,
+};

@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const PublicRoute = ({ children, restricted = false }) => {
   const { isAuth } = useSelector((state) => state.authorization);
@@ -16,3 +17,10 @@ const PublicRoute = ({ children, restricted = false }) => {
 };
 
 export default PublicRoute;
+
+PublicRoute.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};

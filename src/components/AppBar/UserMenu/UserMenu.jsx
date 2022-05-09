@@ -1,3 +1,5 @@
+import { TailSpin } from "react-loader-spinner";
+
 import Button from "components/utilities/Button/Button";
 import s from "./UserMenu.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +9,7 @@ import { NavLink } from "react-router-dom";
 //
 
 const UserMenu = () => {
-  const { user } = useSelector((state) => state.authorization);
+  const { user, authLoader } = useSelector((state) => state.authorization);
 
   const dispatch = useDispatch();
 
@@ -26,8 +28,12 @@ const UserMenu = () => {
         </NavLink>
       </div>
       <div className={s.userBar}>
-        <p>{"User" && user.email}</p>
-        <Button title="Log Out" onClick={logOut} />
+        <p>{"User" && user?.email}</p>
+        {authLoader ? (
+          <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
+        ) : (
+          <Button title="Log Out" onClick={logOut} />
+        )}
       </div>
     </div>
   );

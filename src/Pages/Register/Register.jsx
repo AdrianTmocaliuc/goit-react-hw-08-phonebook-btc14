@@ -1,58 +1,10 @@
-import { TailSpin } from "react-loader-spinner";
-import Button from "components/utilities/Button/Button";
-import { useReducer, useState } from "react";
-
-import s from "./Register.module.scss";
-
-import { useDispatch } from "react-redux";
 import { RegisterUser } from "redux/authorization/authorizationAsyncThunk";
 import GeneralForm from "components/utilities/GeneralForm/GeneralForm";
 
-const initialState = {
-  name: "",
-  email: "",
-  password: "",
-};
-
-const initialTypes = {
-  name: "name",
-  email: "email",
-  password: "password",
-  reset: "reset",
-};
-
-function reducer(state, action) {
-  const { type, payload } = action;
-  switch (type) {
-    case initialTypes.name:
-      return { ...state, name: payload };
-    case initialTypes.email:
-      return { ...state, email: payload };
-    case initialTypes.password:
-      return { ...state, password: payload };
-    case initialTypes.reset:
-      return initialState;
-
-    default:
-      break;
-  }
-}
-
 const Register = () => {
-  // const dispatch = useDispatch();
-
-  // const onSubmitForm = (e) => {
-  //   e.preventDefault();
-  //   // console.log("state", state);
-
-  //   dispatch(RegisterUser(state));
-
-  //   dispatchState({ type: "reset" });
-  // };
-
   return (
     <>
-      <GeneralForm asyncOperation={RegisterUser} buttonTitle="Register" />
+      <GeneralForm buttonTitle="Register" />
     </>
   );
 };

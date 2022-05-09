@@ -1,45 +1,62 @@
 import { useCallback, useEffect, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
+import PropTypes from "prop-types";
 
 import Button from "components/utilities/Button/Button";
 import s from "./ModalEditContact.module.scss";
-import { initialState, reducer } from "./ModalEditContactReducer";
+import { initialState, reducer, initialTypes } from "./ModalEditContactReducer";
+import { fetchChangeContact } from "redux/contacts/contactsAsyncThunk";
 
-const ModalEditContact = ({ onClose, contactId }) => {
-  const items = useSelector((state) => state.items.contacts);
+const ModalEditContact = ({ onClose, contactById }) => {
+  console.log("contactById", contactById);
+  const { contacts } = useSelector((state) => state.items);
 
-  const editContact = items?.filter((item) => item.id === contactId)[0];
+  const init = (props) => {
+    return {
+      ...initialState,
+      id: props.id,
+      name: props.name,
+      number: props.number,
+    };
+  };
 
   const dispatch = useDispatch();
 
-  const [state, dispatchState] = useReducer(reducer, initialState);
-  const { name, number } = state;
+  const [state, dispatchState] = useReducer(reducer, contactById, init);
+  const { id, name, number } = state;
 
   const onChangeInput = ({ target }) => {
     const { name, value } = target;
+
     dispatchState({ type: name, payload: value });
   };
 
-  const addContacts = (contact) => {
+  const checkContact = (contact) => {
     const inputName = contact.name.toLowerCase();
-    const names = items?.map((item) => item.name.toLowerCase());
+    const names = contacts?.map((item) => item.name.toLowerCase());
     if (names?.includes(inputName)) {
       alert(`"${contact.name}" is already in contacts !`);
-      return;
+      return false;
     }
-    console.log("contact", contact);
-    //   dispatch(fetchWithNewContact(contact));
+
+    return true;
   };
 
   const onSubmitForm = (e) => {
     e.preventDefault();
 
-    //   const contact = { name, number };
+    const contact = { id, name, number };
 
-    //   addContacts(contact);
+    const test = checkContact(contact);
 
-    dispatchState({ type: "reset" });
+    if (!test) {
+      return;
+    }
+
+    dispatch(fetchChangeContact(contact));
+
+    onClose();
   };
 
   const backdropCLoseByEscape = useCallback((e) => {
@@ -89,10 +106,20 @@ const ModalEditContact = ({ onClose, contactId }) => {
             onChange={onChangeInput}
           />
         </label>
-        <Button title="Change contact" />
+        <Button title="Change contact" type="submit" />
+        <Button title="Cancel" onClick={() => onClose()} />
       </form>
     </div>
   );
 };
 
 export default ModalEditContact;
+
+ModalEditContact.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  contactById: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    number: PropTypes.string,
+  }),
+};

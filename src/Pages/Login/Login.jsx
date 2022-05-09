@@ -1,9 +1,9 @@
 import { TailSpin } from "react-loader-spinner";
 import Button from "components/utilities/Button/Button";
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 
 import s from "./Login.module.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "redux/authorization/authorizationAsyncThunk";
 
 export const initialState = {
@@ -36,7 +36,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [state, dispatchState] = useReducer(reducer, initialState);
   const { email, password } = state;
-  const [loginLoader, setRegisterLoader] = useState(false);
+  const { authLoader } = useSelector((state) => state.authorization);
 
   const onChangeInput = ({ target }) => {
     const { name, value } = target;
@@ -76,10 +76,10 @@ const Login = () => {
             onChange={onChangeInput}
           />
         </label>
-        {loginLoader ? (
+        {authLoader ? (
           <TailSpin height="27" width="27" color="red" ariaLabel="loading" />
         ) : (
-          <Button title="Login" />
+          <Button title="Login" type="submit" />
         )}
       </form>
     </>

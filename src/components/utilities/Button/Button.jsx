@@ -8,14 +8,7 @@ import { connect } from "react-redux";
 
 class Button extends Component {
   render() {
-    const {
-      title,
-      id,
-      onClick,
-      selected,
-      type = "button",
-      dataset,
-    } = this.props;
+    const { title, id, onClick, selected, type = "button" } = this.props;
     const checkedButton =
       this?.props?.loading && selected === id && title === "Delete";
     return (
@@ -25,6 +18,7 @@ class Button extends Component {
           className={s.button}
           id={id}
           onClick={onClick}
+          type={type}
         >
           {checkedButton ? (
             <TailSpin height="15" width="15" color="red" ariaLabel="loading" />
@@ -40,6 +34,8 @@ class Button extends Component {
 Button.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onClick: PropTypes.func,
+  id: PropTypes.string,
+  selected: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
